@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.contrib.auth import login,logout
 # Create your views here.
 	
 
@@ -19,19 +20,20 @@ def signup(request):
     else:
         return render(request,'signup.html')
 
-def login(request):
+def signin(request):
     if request.method == "POST":
         emailid = request.POST['username']
         password = request.POST['password']
         user = auth.authenticate(username=emailid, password=password)
         if user is not None:
+            login(request,user)
             print ('hello')
-            return redirect('logout/')
+            return redirect('main/')
         else:
             print ('Nikal bsdk')
         
     else: 
         return render(request,'login.html')
 
-def logout(request):
+def main(request):
     return render(request,'logout.html')
